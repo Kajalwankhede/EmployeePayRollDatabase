@@ -247,4 +247,49 @@ ________________________________________________________________________________
    | male   |       30000 |
    +--------+-------------+
    2 rows in set (0.00 sec)
-________________________________________________________________________________________________________
+_____________________________________________________________________________________________________________
+UC 8 - Ability to extend employee_payroll data to store employee information like employee phone, address and
+        department - Ensure employee department is non nullable fields.
+       - Add Default Value for address field.
+
+       mysql> ALTER TABLE employee_payroll ADD PhoneNumber Varchar(20) AFTER name;
+       Query OK, 0 rows affected (2.69 sec)
+       Records: 0  Duplicates: 0  Warnings: 0
+
+       mysql> ALTER TABLE employee_payroll ADD Address Varchar(20) NOT NULL AFTER PhoneNumber;
+       Query OK, 0 rows affected (0.17 sec)
+       Records: 0  Duplicates: 0  Warnings: 0
+
+       mysql> ALTER TABLE employee_payroll ADD Depatment Varchar(30) NOT NULL AFTER Address;
+       Query OK, 0 rows affected (0.13 sec)
+       Records: 0  Duplicates: 0  Warnings: 0
+
+       mysql> ALTER TABLE employee_payroll ALTER Address SET DEFAULT 'Nagpur';
+       Query OK, 0 rows affected (0.08 sec)
+       Records: 0  Duplicates: 0  Warnings: 0
+
+       +-------------+--------------+------+-----+---------+----------------+
+       | Field       | Type         | Null | Key | Default | Extra          |
+       +-------------+--------------+------+-----+---------+----------------+
+       | id          | int unsigned | NO   | PRI | NULL    | auto_increment |
+       | name        | varchar(50)  | NO   |     | NULL    |                |
+       | PhoneNumber | varchar(20)  | YES  |     | NULL    |                |
+       | Address     | varchar(20)  | NO   |     | Nagpur  |                |
+       | Depatment   | varchar(30)  | NO   |     | NULL    |                |
+       | gender      | char(10)     | YES  |     | NULL    |                |
+       | salary      | double       | NO   |     | NULL    |                |
+       | start       | date         | NO   |     | NULL    |                |
+       +-------------+--------------+------+-----+---------+----------------+
+       8 rows in set (0.05 sec)
+
+       mysql> select  * from employee_payroll;
+       +----+---------+-------------+---------+-----------+--------+--------+------------+
+       | id | name    | PhoneNumber | Address | Depatment | gender | salary | start      |
+       +----+---------+-------------+---------+-----------+--------+--------+------------+
+       |  1 | Kajal   | NULL        |         |           | Female |  40000 | 2020-01-03 |
+       |  2 | Sunny   | NULL        |         |           | male   |  20000 | 2019-11-13 |
+       |  3 | Charlie | NULL        |         |           | male   |  30000 | 2022-08-19 |
+       +----+---------+-------------+---------+-----------+--------+--------+------------+
+       3 rows in set (0.00 sec)
+
+________________________________________________________________________________________________________________
