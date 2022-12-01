@@ -293,3 +293,39 @@ UC 8 - Ability to extend employee_payroll data to store employee information lik
        3 rows in set (0.00 sec)
 
 ________________________________________________________________________________________________________________
+UC 9 - Ability to extend employee_payroll table to have Basic Pay, Deductions, Taxable Pay, Income Tax, Net Pay
+
+   mysql> ALTER TABLE employee_payroll ADD BasicPay Double NOT NULL AFTER start;
+   Query OK, 0 rows affected (2.30 sec)
+   Records: 0  Duplicates: 0  Warnings: 0
+
+   mysql> ALTER TABLE employee_payroll ADD Deduction Double NOT NULL AFTER BasicPay;
+   Query OK, 0 rows affected (0.23 sec)
+   Records: 0  Duplicates: 0  Warnings: 0
+
+   mysql> ALTER TABLE employee_payroll ADD TaxablePay Double NOT NULL AFTER Deduction;
+   Query OK, 0 rows affected (0.25 sec)
+   Records: 0  Duplicates: 0  Warnings: 0
+
+   mysql> ALTER TABLE employee_payroll ADD IncomeTax Double NOT NULL AFTER TaxabelPay;
+   ERROR 1054 (42S22): Unknown column 'TaxabelPay' in 'employee_payroll'
+   mysql> ALTER TABLE employee_payroll ADD IncomeTax Double NOT NULL AFTER  TaxablePay;
+   Query OK, 0 rows affected (0.18 sec)
+   Records: 0  Duplicates: 0  Warnings: 0
+
+   mysql> ALTER TABLE employee_payroll ADD NetPAy Double NOT NULL AFTER IncomeTax;
+   Query OK, 0 rows affected (0.39 sec)
+   Records: 0  Duplicates: 0  Warnings: 0
+
+   mysql> select  * from employee_payroll;
+   +----+---------+-------------+---------+-----------+--------+--------+------------+----------+-----------+------------+-----------+--------+
+   | id | name    | PhoneNumber | Address | Depatment | gender | salary | start      | BasicPay | Deduction | TaxablePay | IncomeTax | NetPAy |
+   +----+---------+-------------+---------+-----------+--------+--------+------------+----------+-----------+------------+-----------+--------+
+   |  1 | Kajal   | NULL        |         |           | Female |  40000 | 2020-01-03 |        0 |         0 |          0 |         0 |      0 |
+   |  2 | Sunny   | NULL        |         |           | male   |  20000 | 2019-11-13 |        0 |         0 |          0 |         0 |      0 |
+   |  3 | Charlie | NULL        |         |           | male   |  30000 | 2022-08-19 |        0 |         0 |          0 |         0 |      0 |
+   +----+---------+-------------+---------+-----------+--------+--------+------------+----------+-----------+------------+-----------+--------+
+   3 rows in set (0.00 sec)
+
+________________________________________________________________________________________________________________________
+
