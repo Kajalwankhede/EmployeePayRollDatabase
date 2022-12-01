@@ -328,4 +328,37 @@ UC 9 - Ability to extend employee_payroll table to have Basic Pay, Deductions, T
    3 rows in set (0.00 sec)
 
 ________________________________________________________________________________________________________________________
+UC 10- Ability to make Terissa as part of Sales and Marketing Department
+       - Note: The Complete employee payroll roll need to be Inserted - If a Salary is now going to be updated
+       multiple rows has to be updated creating unnecessary redundancy - Further There is 2 Employee ID so
+       according to Database there is two different Terissa
 
+       mysql> INSERT INTO employee_payroll(name,PhoneNumber,Address,Depatment,gender,salary,start,BasicPay,Deduction,TaxablePay,IncomeTax,NetPAy) VALUES
+           -> ('Terisa',9870987656,'Mumbai','Marketing','Female',30000.00,'2020-01-03',30000.00,10000.00,5000.00,15000.00,5000.00);
+       Query OK, 1 row affected (0.37 sec)
+
+       mysql> select  * from employee_payroll;
+       +----+---------+-------------+---------+-----------+--------+--------+------------+----------+-----------+------------+-----------+--------+
+       | id | name    | PhoneNumber | Address | Depatment | gender | salary | start      | BasicPay | Deduction | TaxablePay | IncomeTax | NetPAy |
+       +----+---------+-------------+---------+-----------+--------+--------+------------+----------+-----------+------------+-----------+--------+
+       |  1 | Kajal   | NULL        |         |           | Female |  40000 | 2020-01-03 |        0 |         0 |          0 |         0 |      0 |
+       |  2 | Sunny   | NULL        |         |           | male   |  20000 | 2019-11-13 |        0 |         0 |          0 |         0 |      0 |
+       |  3 | Charlie | NULL        |         |           | male   |  30000 | 2022-08-19 |        0 |         0 |          0 |         0 |      0 |
+       |  4 | Terisa  | 9870987656  | Mumbai  | Marketing | Female |  30000 | 2020-01-03 |    30000 |     10000 |       5000 |     15000 |   5000 |
+       +----+---------+-------------+---------+-----------+--------+--------+------------+----------+-----------+------------+-----------+--------+
+       4 rows in set (0.00 sec)
+
+       mysql> INSERT INTO employee_payroll(name,PhoneNumber,Address,Depatment,gender,salary,start,BasicPay,Deduction,TaxablePay,IncomeTax,NetPAy) VALUES
+           -> ('Terisa',9870987656,'Mumbai','Sales','Female',30000.00,'2019-11-013',30000.00,10000.00,5000.00,15000.00,5000.00);
+       Query OK, 1 row affected (0.10 sec)
+
+       mysql> select  * from employee_payroll where name ='Terisa';
+       +----+--------+-------------+---------+-----------+--------+--------+------------+----------+-----------+------------+-----------+--------+
+       | id | name   | PhoneNumber | Address | Depatment | gender | salary | start      | BasicPay | Deduction | TaxablePay | IncomeTax | NetPAy |
+       +----+--------+-------------+---------+-----------+--------+--------+------------+----------+-----------+------------+-----------+--------+
+       |  4 | Terisa | 9870987656  | Mumbai  | Marketing | Female |  30000 | 2020-01-03 |    30000 |     10000 |       5000 |     15000 |   5000 |
+       |  5 | Terisa | 9870987656  | Mumbai  | Sales     | Female |  30000 | 2019-11-13 |    30000 |     10000 |       5000 |     15000 |   5000 |
+       +----+--------+-------------+---------+-----------+--------+--------+------------+----------+-----------+------------+-----------+--------+
+       2 rows in set (0.06 sec)
+
+___________________________________________________________________________________________________________________________________________________________________________
