@@ -362,3 +362,140 @@ UC 10- Ability to make Terissa as part of Sales and Marketing Department
        2 rows in set (0.06 sec)
 
 ___________________________________________________________________________________________________________________________________________________________________________
+UC 11 - Draw the ER Diagram for Payroll Service DB - Identifies the Entities – Entities can be Identified using
+        Normalization Technique- Check each attribute and see if they are Composite or Multi- Valued.
+
+        mysql> create table Company
+              -> (
+              -> CompanyId INT unsigned NOT NULL AUTO_INCREMENT,
+              -> CompanyName VARCHAR(30) NOT NULL,
+              -> PRIMARY KEY (CompanyId)
+              -> );
+          Query OK, 0 rows affected (6.79 sec)
+
+            mysql> describe company;
+            +-------------+--------------+------+-----+---------+----------------+
+            | Field       | Type         | Null | Key | Default | Extra          |
+            +-------------+--------------+------+-----+---------+----------------+
+            | CompanyId   | int unsigned | NO   | PRI | NULL    | auto_increment |
+            | CompanyName | varchar(30)  | NO   |     | NULL    |                |
+            +-------------+--------------+------+-----+---------+----------------+
+            2 rows in set (0.17 sec)
+
+            mysql> INSERT INTO company(CompanyName)VALUES('Relience');
+            Query OK, 1 row affected (0.38 sec)
+
+            mysql> INSERT INTO company(CompanyName)VALUES('Cognizant');
+            Query OK, 1 row affected (0.08 sec)
+
+            mysql> INSERT INTO company(CompanyName)VALUES('Wipro');
+            Query OK, 1 row affected (0.06 sec)
+
+            mysql> select * from company;
+            +-----------+-------------+
+            | CompanyId | CompanyName |
+            +-----------+-------------+
+            |         1 | Relience    |
+            |         2 | Cognizant   |
+            |         3 | Wipro       |
+            +-----------+-------------+
+            3 rows in set (0.00 sec)
+
+           mysql> CREATE TABLE Employee(
+               -> CompanyId INT UNSIGNED AUTO_INCREMENT,
+               -> EmpId INT UNSIGNED NOT NULL,
+               -> EmpName VARCHAR(30) NOT NULL,
+               -> Phone VARCHAR(10) NOT NULL,
+               -> Address VARCHAR(30) NOT NULL,
+               -> Gender VARCHAR(10) NOT NULL,
+               -> PRIMARY KEY(EmpId),
+               -> FOREIGN KEY(CompanyId)REFERENCES Company(CompanyId)
+               -> );
+           Query OK, 0 rows affected (0.96 sec)
+
+           mysql> describe employee;
+           +-----------+--------------+------+-----+---------+----------------+
+           | Field     | Type         | Null | Key | Default | Extra          |
+           +-----------+--------------+------+-----+---------+----------------+
+           | CompanyId | int unsigned | NO   | MUL | NULL    | auto_increment |
+           | EmpId     | int unsigned | NO   | PRI | NULL    |                |
+           | EmpName   | varchar(30)  | NO   |     | NULL    |                |
+           | Phone     | varchar(10)  | NO   |     | NULL    |                |
+           | Address   | varchar(30)  | NO   |     | NULL    |                |
+           | Gender    | varchar(10)  | NO   |     | NULL    |                |
+           +-----------+--------------+------+-----+---------+----------------+
+           6 rows in set (0.00 sec)
+
+           mysql> INSERT INTO employee VALUES
+               -> (1,101,'SUNNY','9876789098','Nagpur','Male');
+           Query OK, 1 row affected (0.13 sec)
+
+           mysql> INSERT INTO employee VALUES
+               -> (2,102,'Honey','7876789098','Mumbai','Female');
+           Query OK, 1 row affected (0.08 sec)
+
+           mysql> select * from employee;
+           +-----------+-------+---------+------------+---------+--------+
+           | CompanyId | EmpId | EmpName | Phone      | Address | Gender |
+           +-----------+-------+---------+------------+---------+--------+
+           |         1 |   101 | SUNNY   | 9876789098 | Nagpur  | Male   |
+           |         2 |   102 | Honey   | 7876789098 | Mumbai  | Female |
+           +-----------+-------+---------+------------+---------+--------+
+           2 rows in set (0.00 sec)
+
+           mysql> CREATE TABLE payroll(
+               -> EmpId INT UNSIGNED NOT NULL,
+               -> BasicPay DOUBLE NOT NULL,
+               -> Deduction DOUBLE NOT NULL,
+               -> TaxablePay DOUBLE NOT NULL,
+               -> IncomeTax DOUBLE NOT NULL,
+               -> NatPay DOUBLE NOT NULL,
+               -> FOREIGN KEY(EmpId) REFERENCES employee(EmpId)
+               -> );
+           Query OK, 0 rows affected (0.92 sec)
+            mysql> INSERT INTO payroll(EmpId,BasicPay,Deduction,TaxablePay,IncomeTax,NatPay)VALUES
+                -> (101,30000.0,5000.0,3000.0,2000.0,2000.0);
+            Query OK, 1 row affected (0.06 sec)
+
+            mysql> INSERT INTO payroll(EmpId,BasicPay,Deduction,TaxablePay,IncomeTax,NatPay)VALUES
+                -> (102,40000.0,6000.0,4000.0,3000.0,4000.0);
+            Query OK, 1 row affected (0.06 sec)
+
+            mysql> select * from payroll;
+            +-------+----------+-----------+------------+-----------+--------+
+            | EmpId | BasicPay | Deduction | TaxablePay | IncomeTax | NatPay |
+            +-------+----------+-----------+------------+-----------+--------+
+            |   101 |    30000 |      5000 |       3000 |      2000 |   2000 |
+            |   102 |    40000 |      6000 |       4000 |      3000 |   4000 |
+            +-------+----------+-----------+------------+-----------+--------+
+            2 rows in set (0.00 sec)
+
+           mysql>  CREATE TABLE Department1(
+               -> EmpId INT UNSIGNED NOT NULL,
+               -> DeptId INT NOT NULL AUTO_INCREMENT,
+               -> DeptName VARCHAR(30) NOT NULL,
+               -> PRIMARY KEY(DeptId,EmpId),
+               -> FOREIGN KEY(EmpId)REFERENCES employee(EmpId)
+               -> );
+           Query OK, 0 rows affected (4.14 sec)
+
+          mysql>  INSERT INTO Department1(DeptName)VALUES('Marketing');
+          ERROR 1364 (HY000): Field 'EmpId' doesn't have a default value
+          mysql>  INSERT INTO Department1(EmpId,DeptName)VALUES(101,'Marketing');
+          Query OK, 1 row affected (0.14 sec)
+
+          mysql>  INSERT INTO Department1(EmpId,DeptName)VALUES(102,'Sales');
+          Query OK, 1 row affected (0.11 sec)
+
+          mysql> select * from department1;
+          +-------+--------+-----------+
+          | EmpId | DeptId | DeptName  |
+          +-------+--------+-----------+
+          |   101 |      1 | Marketing |
+          |   102 |      2 | Sales     |
+          +-------+--------+-----------+
+          2 rows in set (0.00 sec)
+
+________________________________________________________________________________________________________________________
+
+
