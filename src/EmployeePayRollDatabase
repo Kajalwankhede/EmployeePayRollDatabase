@@ -497,5 +497,47 @@ UC 11 - Draw the ER Diagram for Payroll Service DB - Identifies the Entities –
           2 rows in set (0.00 sec)
 
 ________________________________________________________________________________________________________________________
+UC 12 - Ensure all retrieve queries done especially in UC 4, UC 5 and UC 7 are working with new table structure.
 
+        mysql> SELECT Gender,COUNT(EmpName) FROM employee
+            -> GROUP BY GENDER;
+        +--------+----------------+
+        | Gender | COUNT(EmpName) |
+        +--------+----------------+
+        | Male   |              1 |
+        | Female |              1 |
+        +--------+----------------+
+        2 rows in set (2.05 sec)
 
+        mysql> SELECT SUM(BasicPay) FROM payroll ;
+        +---------------+
+        | SUM(BasicPay) |
+        +---------------+
+        |         70000 |
+        +---------------+
+        1 row in set (0.13 sec)
+
+        mysql> SELECT MIN(BasicPay) FROM payroll ;
+        +---------------+
+        | MIN(BasicPay) |
+        +---------------+
+        |         30000 |
+        +---------------+
+        1 row in set (0.04 sec)
+
+        mysql> SELECT MAX(BasicPay) FROM payroll ;
+        +---------------+
+        | MAX(BasicPay) |
+        +---------------+
+        |         40000 |
+        +---------------+
+        1 row in set (0.00 sec)
+
+        mysql> SELECT AVG(BasicPay) FROM payroll ;
+        +---------------+
+        | AVG(BasicPay) |
+        +---------------+
+        |         35000 |
+        +---------------+
+        1 row in set (0.00 sec)
+_________________________________________________________________________________________________________________________
